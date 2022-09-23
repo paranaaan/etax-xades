@@ -1,8 +1,15 @@
+import xades4j.utils.StringUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 
 public class XadesBesSignMain {
@@ -11,6 +18,7 @@ public class XadesBesSignMain {
     private static InputStream config;
     private static String xmlInput;
     private static String xmlOutput;
+    private static String xmlArchive;
     private static String signedPrefix;
     private static String pkType;
     private static String pkcs11LibPath;
@@ -20,10 +28,7 @@ public class XadesBesSignMain {
     private static String pkcs12Path;
     private static String pkcs12Password;
 
-    // Path of config file
     private static final String CONFIG_FILE_PATH = "src/main/resources/conf/etax-xades.properties";
-
-    // static Logger logger = Logger.getLogger(XadesBesSignMain.class);
 
     public static void main(String[] args) {
 
@@ -59,6 +64,12 @@ public class XadesBesSignMain {
                 String outPutName = xmlOutput + File.separator + signedPrefix + filename;
                 signer.signWithoutIDEnveloped(file.getAbsolutePath(), outPutName);
                 count++;
+
+                if (!StringUtils.isNullOrEmptyString(xmlArchive)) {
+                    Files.move(file.toPath(),
+                            Paths.get(xmlArchive + File.separator + filename),
+                            StandardCopyOption.REPLACE_EXISTING);
+                }
             }
 
         } catch (Exception ex) {
@@ -67,6 +78,9 @@ public class XadesBesSignMain {
 
         System.out.println("Excuted: " + count);
         System.out.println("Output should be in: " + new File(xmlOutput).getAbsolutePath());
+        if (!StringUtils.isNullOrEmptyString(xmlArchive)) {
+            System.out.println("Input file archived in: " + new File(xmlArchive).getAbsolutePath());
+        }
         System.out.println("==============\tFinish\t==============");
     }
 
@@ -79,11 +93,19 @@ public class XadesBesSignMain {
 
             xmlInput = prop.getProperty("SIGN_INPUT_PATH");
             xmlOutput = prop.getProperty("SIGN_OUTPUT_PATH");
+            xmlArchive = prop.getProperty("SIGN_ARCHIVE_PATH");
+            if (!StringUtils.isNullOrEmptyString(xmlArchive)) {
+                DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+                xmlArchive += File.separator + dateFormat.format(new Date());
+                createIfNotExist(xmlArchive);
+            }
             signedPrefix = prop.getProperty("SIGNED_PREFIX");
+            createIfNotExist(xmlOutput);
 
-            File directory = new File(xmlOutput);
-            if (!directory.exists()) {
-                directory.mkdir();
+            File outputPath = new File(xmlOutput);
+            if (!outputPath.exists()) {
+                boolean outputPathResult = outputPath.mkdir();
+                if (outputPathResult) System.out.println(outputPath.getAbsolutePath() + " created");
             }
 
             pkType = prop.getProperty("PK_TYPE");
@@ -97,6 +119,14 @@ public class XadesBesSignMain {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }
+    }
+
+    public static void createIfNotExist(String uri) {
+        File path = new File(uri);
+        if (!path.exists()) {
+            boolean result = path.mkdirs();
+            if (result) System.out.println(path.getAbsolutePath() + " created");
         }
     }
 }
