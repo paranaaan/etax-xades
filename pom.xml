@@ -43,7 +43,23 @@
     		<artifactId>commons-io</artifactId>
     		<version>2.5</version>
 		</dependency>
-		
+
+		<!--		add 2 dependencies below for solved problem from Intellij
+		(Unresolved plugin: 'org.apache.maven.plugins:maven-surefire-plugin:2.12.4')-->
+<!--		Update: and follow this one https://stackoverflow.com/questions/20496239/maven-plugins-can-not-be-found-in-intellij-->
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-install-plugin</artifactId>
+			<version>2.4</version>
+			<type>maven-plugin</type>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-deploy-plugin</artifactId>
+			<version>2.7</version>
+			<type>maven-plugin</type>
+		</dependency>
 	</dependencies>
 
 	<properties>

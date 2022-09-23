@@ -16,3 +16,5 @@ target/
 # vscode
 .vscode/*
 src/main/resources/signed-ETDA-invoice.xml
+.idea/
+src/main/resources/out/
