@@ -18,3 +18,5 @@ target/
 src/main/resources/signed-ETDA-invoice.xml
 .idea/
 src/main/resources/out/
+src/main/resources/archive/
+example/out/

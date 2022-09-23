@@ -1,5 +1,4 @@
 import xades4j.utils.StringUtils;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
