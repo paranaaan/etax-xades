@@ -1,4 +1,5 @@
 import xades4j.utils.StringUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -30,7 +31,6 @@ public class XadesBesSignMain {
     private static final String CONFIG_FILE_PATH = "src/main/resources/conf/etax-xades.properties";
 
     public static void main(String[] args) {
-
         int count = 0;
 
         XadesBesSigner signer = new XadesBesSigner();
@@ -65,9 +65,7 @@ public class XadesBesSignMain {
                 count++;
 
                 if (!StringUtils.isNullOrEmptyString(xmlArchive)) {
-                    Files.move(file.toPath(),
-                            Paths.get(xmlArchive + File.separator + filename),
-                            StandardCopyOption.REPLACE_EXISTING);
+                    Files.move(file.toPath(), Paths.get(xmlArchive + File.separator + filename), StandardCopyOption.REPLACE_EXISTING);
                 }
             }
 
@@ -75,10 +73,12 @@ public class XadesBesSignMain {
             ex.printStackTrace();
         }
 
-        System.out.println("Excuted: " + count);
-        System.out.println("Output should be in: " + new File(xmlOutput).getAbsolutePath());
-        if (!StringUtils.isNullOrEmptyString(xmlArchive)) {
-            System.out.println("Input file archived in: " + new File(xmlArchive).getAbsolutePath());
+        if (count > 0) {
+            System.out.println("Excuted: " + count);
+            System.out.println("Output should be in: " + new File(xmlOutput).getAbsolutePath());
+            if (!StringUtils.isNullOrEmptyString(xmlArchive)) {
+                System.out.println("Input file archived in: " + new File(xmlArchive).getAbsolutePath());
+            }
         }
         System.out.println("==============\tFinish\t==============");
     }
