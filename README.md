@@ -12,7 +12,7 @@ This repository is Xades signature sign and verification sample code for Thailan
 - Java JRE8 (java 8 for higher)
 - Windows OS (if not, can be any that support JAVA but no execution provided yet.)
 
-### How to use
+### How to use - everythings inside **/example**
 1. Change 3 variables value in **run.bat** file
 
 ````
