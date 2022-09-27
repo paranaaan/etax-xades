@@ -114,3 +114,16 @@ set JAR_TARGET=xades-ready-to-use-jar-with-dependencies.jar
     <td colspan="3">...</td>
   </tr>
 </table>
+
+
+to debug PKCS11 lib: 
+
+```
+keytool -list -v -storetype pkcs11 -providerClass sun.security.pkcs11.SunPKCS11 -providerArg <PATH_TO_CONFIG_FILE>\pkcs11.cfg
+```
+
+or
+
+````
+keytool -keystore NONE -storetype PKCS11 -list
+````
