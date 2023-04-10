@@ -12,7 +12,7 @@ This repository is Xades signature sign and verification sample code for Thailan
 - Java JRE8 (java 8 for higher)
 - Windows OS (if not, can be any that support JAVA but no execution provided yet.)
 
-### How to use - everythings inside **/example**
+### How to use
 1. Change 3 variables value in **run.bat** file
 
 ````
@@ -92,6 +92,11 @@ set JAR_TARGET=xades-ready-to-use-jar-with-dependencies.jar
     <td>P@ssw0rd</td>
   </tr>
   <tr>
+    <td>PKCS11_PIN</td>
+    <td>pin for targeted certificate</td>
+    <td>12345678</td>
+  </tr>
+  <tr>
     <td colspan="3">Note: you can find Provider name and slot ID in Driver's application or programatic way at https://docs.oracle.com/javase/8/docs/technotes/guides/security/p11guide.html#TroubleShoot</td>
   </tr>
   <tr>
@@ -114,3 +119,16 @@ set JAR_TARGET=xades-ready-to-use-jar-with-dependencies.jar
     <td colspan="3">...</td>
   </tr>
 </table>
+
+
+to debug PKCS11 lib: 
+
+```
+keytool -list -v -storetype pkcs11 -providerClass sun.security.pkcs11.SunPKCS11 -providerArg <PATH_TO_CONFIG_FILE>\pkcs11.cfg
+```
+
+or
+
+````
+keytool -keystore NONE -storetype PKCS11 -list
+````

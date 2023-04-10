@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.Provider;
+import java.security.Security;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,6 +27,7 @@ public class XadesBesSignMain {
     private static String pkcs11ProviderName;
     private static int pkcs11SlotId;
     private static String pkcs11Password;
+    private static String pkcs11Pin;
     private static String pkcs12Path;
     private static String pkcs12Password;
 
@@ -43,7 +46,7 @@ public class XadesBesSignMain {
 
             if (pkType.equals("PKCS11")) {
                 // P11 signer
-                signer.setSignerPkcs11(pkcs11LibPath, pkcs11ProviderName, pkcs11SlotId, pkcs11Password);
+                signer.setSignerPkcs11(pkcs11LibPath, pkcs11ProviderName, pkcs11SlotId, pkcs11Password, pkcs11Pin);
             } else if (pkType.equals("PKCS12")) {
                 // P12 signer
                 signer.setSignerPkcs12(pkcs12Path, pkcs12Password, pkType);
@@ -71,6 +74,7 @@ public class XadesBesSignMain {
 
         } catch (Exception ex) {
             ex.printStackTrace();
+            System.exit(1);
         }
 
         if (count > 0) {
@@ -112,6 +116,7 @@ public class XadesBesSignMain {
             pkcs11ProviderName = prop.getProperty("PKCS11_PROVIDER_NAME");
             pkcs11SlotId = Integer.parseInt(prop.getProperty("PKCS11_SLOT_ID"));
             pkcs11Password = prop.getProperty("PKCS11_PASSWORD");
+            pkcs11Pin = prop.getProperty("PKCS11_PIN");
             pkcs12Path = prop.getProperty("PKCS12_PATH");
             pkcs12Password = prop.getProperty("PKCS12_PASSWORD");
 
